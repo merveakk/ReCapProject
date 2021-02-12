@@ -13,7 +13,7 @@ namespace ConsoleUI
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
             
-            Console.WriteLine(carManager.GetCarsByBrandId(2).Count);
+            Console.WriteLine(carManager.GetCarsByBrandId(3).Count);
 
             //foreach (Car car in carManager./*GetCarsByColorId(3)*/)
             //{
