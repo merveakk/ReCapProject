@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Business.Abstract
 {
@@ -13,6 +15,7 @@ namespace Business.Abstract
         List<Car> GetCarsByBrandId(int id);
         List<Car> GetCarsByColorId(int id);
         List<Car> GetAll();
-        public Car GetById(int id);
+        Car GetById(int id);
+        List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null);
     }
 }

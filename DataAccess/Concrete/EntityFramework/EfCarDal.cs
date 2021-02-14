@@ -3,70 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-   public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, ReCapDBContext>, ICarDal
     {
-        public void Add(Car entity)
+        public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
-            using(ReCapDBContext context= new ReCapDBContext())
+            using (ReCapDBContext context= new ReCapDBContext())
             {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State = EntityState.Added;
-                context.SaveChanges();
-
-            }
-        }
-
-        public void Delete(Car entity)
-        {
-            using (ReCapDBContext context = new ReCapDBContext())
-            {
-                var deletedEntity = context.Entry(entity);
-                deletedEntity.State = EntityState.Deleted;
-                context.SaveChanges();
-
-            }
-        }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
-        {
-            using (ReCapDBContext context = new ReCapDBContext())
-            {
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (ReCapDBContext context = new ReCapDBContext())
-            {
-                return filter == null 
-                    ? context.Set<Car>().ToList() 
-                    : context.Set<Car>().Where(filter).ToList();
-            }
-        }
-
-        public Car GetById(int id)
-        {
-            using (ReCapDBContext context = new ReCapDBContext())
-            {
-                return context.Cars.FirstOrDefault(p => p.Id == id);
-            }
-        }
-
-        public void Update(Car entity)
-        {
-            using (ReCapDBContext context = new ReCapDBContext())
-            {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
-
+                var result = from c in filter == null ? context.Cars : context.Cars.Where(filter)
+                             join b in context.Brands on c.BrandId equals b.BrandId
+                             join a in context.Colors on c.ColorId equals a.ColorId
+                             select new CarDetailDto { 
+                                 BrandName = b.BrandName, 
+                                 ColorName = a.ColorName, 
+                                 DailyPrice = c.DailyPrice, 
+                                 ModelYear = c.ModelYear };
+                return result.ToList();
             }
         }
     }
