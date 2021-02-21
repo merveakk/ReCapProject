@@ -26,6 +26,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.Error);
             }
+            _rentalDal.Add(rental);
             return new SuccessResult(Messages.EntityAdded);
         }
 

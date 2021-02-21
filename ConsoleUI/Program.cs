@@ -64,18 +64,24 @@ namespace ConsoleUI
                     RentalAddition(rentalManager);
                     break;
                 case 12:
-                    Console.WriteLine("Car id:");
-                    int carIdForReturn = Convert.ToInt32(Console.ReadLine());
-                    var result = rentalManager.GetRentalDetails(p => p.CarId == carIdForReturn);
-                    foreach (var rental in result.Data)
-                    {
-                        rental.ReturnDate = DateTime.Now;
-                        Console.WriteLine("Araba teslim edildi.");
-                    }
+                    ReturnRental(rentalManager);
                     break;
 
                 default:
                     break;
+            }
+            
+        }
+
+        private static void ReturnRental(RentalManager rentalManager)
+        {
+            Console.WriteLine("Kiraladığınız araba hangi Car Id'ye sahip?");
+            int carId = Convert.ToInt32(Console.ReadLine());
+            var returnedRental = rentalManager.GetRentalDetails(I => I.CarId == carId);
+            foreach (var rental in returnedRental.Data)
+            {
+                rental.ReturnDate = DateTime.Now;
+                Console.WriteLine("Araba teslim edildi.");
             }
             
         }
@@ -93,7 +99,8 @@ namespace ConsoleUI
                 RentDate = DateTime.Now,
                 ReturnDate = null,
             };
-            rentalManager.Add(rental);
+            Console.WriteLine(rentalManager.Add(rental).Message);
+            
         }
 
         private static void UserAddition(UserManager userManager)
