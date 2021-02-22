@@ -9,6 +9,9 @@ using Entities.DTOs;
 using System.Linq;
 using Core.Utilities.Results;
 using Business.Constants;
+using Business.ValidationRules;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -21,18 +24,13 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.DailyPrice>0)
-            {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.EntityAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.InvalidValue);
-            }
-            
+
+            _carDal.Add(car);
+            return new SuccessResult(Messages.EntityAdded);
+
         }
 
         public IResult Delete(Car car)
@@ -43,7 +41,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            if (DateTime.Now.Hour==20)
+            if (DateTime.Now.Hour == 20)
             {
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
@@ -63,7 +61,7 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter));
         }
-    
+
 
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
@@ -75,17 +73,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
-            if (car.DailyPrice > 0)
-            {
-                _carDal.Update(car);
-                return new SuccessResult(Messages.EntityUpdated);
-            }
-            else
-            {
-                return new ErrorResult(Messages.InvalidValue);
-            }
+            
+            _carDal.Update(car);
+            return new SuccessResult(Messages.EntityUpdated);
+
         }
     }
 }
