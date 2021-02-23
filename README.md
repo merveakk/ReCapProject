@@ -1,5 +1,5 @@
 # ReCapProject - Araba Kiralama Sistemi
-Entities, DataAccess, Business, Console(ConsoleUI), WebAPI katmanlarından oluşan ve gelişmekte olan bir araba kiralama console projesidir.
+Entities, DataAccess, Business, Core, WebAPI katmanlarından oluşan ve gelişmekte olan bir araba kiralama console projesidir.
 
 
 # LAYERS
