@@ -24,7 +24,7 @@ Users
 
 # Installation
 
-Şu paketler NuGet aracığıyla belirtilen katmana eklenmelidir:
+Aşağıdaki paketler NuGet aracığıyla belirtilen katmana eklenmelidir:
 
 DataAccess  ->    Microsoft.EntityFrameworkCore (3.1.11), Microsoft.EntityFrameworkCore.SqlServer (3.1.11)
 
