@@ -27,5 +27,7 @@ Users
 Şu paketler NuGet aracığıyla belirtilen katmana eklenmelidir:
 
 DataAccess  ->    Microsoft.EntityFrameworkCore (3.1.11), Microsoft.EntityFrameworkCore.SqlServer (3.1.11)
+
 Business    ->    "Autofac" Version="6.1.0" , "Autofac.Extras.DynamicProxy" Version="6.0.0" , "FluentValidation" Version="9.5.1"
+
 Core        ->    "Autofac" Version="6.1.0" , "Autofac.Extensions.DependencyInjection" Version="7.1.0" , "Autofac.Extras.DynamicProxy" Version="6.0.0" , "FluentValidation" Version="9.5.1" , "Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.11"
