@@ -15,10 +15,15 @@ Core: Bu katmanda ortak kodlar tutulur. Diğer katmanları referans almaz. Aspec
 # Tables in Database 
 
 Cars
+
 Brands
+
 Colors
+
 Customers
+
 Rentals
+
 Users
 
 
