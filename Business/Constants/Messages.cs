@@ -14,5 +14,6 @@ namespace Business.Constants
         public static string EntityUpdated="Güncelleme başarılı.";
         public static string EntityDeleted="Silme işlemi başarılı.";
         public static string Error="ERROR !";
+        public static string CarImageLimitExceeded="En fazla 5 resim yüklenebilir.";
     }
 }
