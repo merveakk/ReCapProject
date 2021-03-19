@@ -10,8 +10,11 @@ using System.Linq;
 using Core.Utilities.Results;
 using Business.Constants;
 using Business.ValidationRules;
-using Core.CrossCuttingConcerns.Validation;
 using Core.Aspects.Autofac.Validation;
+using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Performance;
 
 namespace Business.Concrete
 {
@@ -24,13 +27,26 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarValidator))]
+        [SecuredOperation("product.add,admin")]
         public IResult Add(Car car)
         {
 
             _carDal.Add(car);
             return new SuccessResult(Messages.EntityAdded);
 
+        }
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            Add(car);
+            if (car.DailyPrice < 100)
+            {
+                throw new Exception(Messages.TransactionCanceled);
+            }
+            Add(car);
+            return new SuccessResult(Messages.EntityAdded);
         }
 
         public IResult Delete(Car car)
@@ -39,6 +55,8 @@ namespace Business.Concrete
             return new SuccessResult(Messages.EntityDeleted);
         }
 
+        [PerformanceAspect(10)]
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour == 20)
@@ -47,12 +65,13 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
-
+        [PerformanceAspect(10)]
+        [CacheAspect]
         public IDataResult<Car> GetById(int id)
         {
             return new DataResult<Car>(_carDal.Get(p => p.Id == id), true);
         }
-
+        [PerformanceAspect(10)]
         public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             if (DateTime.Now.Hour == 23)
@@ -62,17 +81,18 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter));
         }
 
-
+        [PerformanceAspect(10)]
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id));
         }
-
+        [PerformanceAspect(10)]
         public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
+        [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {

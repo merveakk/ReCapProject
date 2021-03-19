@@ -4,6 +4,8 @@ using System.Text;
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -33,13 +35,15 @@ namespace Business.Concrete
             _brandDal.Delete(brand);
             return new SuccessResult(Messages.EntityDeleted);
         }
-
+        [PerformanceAspect(10)]
+        [CacheAspect]
         public IDataResult<List<Brand>> GetAll()
         {
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.EntityListed);
 
         }
-
+        [PerformanceAspect(10)]
+        [CacheAspect]
         public IDataResult<Brand> GetById(int id)
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(p => p.BrandId == id));

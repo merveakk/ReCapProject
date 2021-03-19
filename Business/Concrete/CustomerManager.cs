@@ -4,6 +4,8 @@ using System.Text;
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -33,6 +35,8 @@ namespace Business.Concrete
             return new SuccessResult(Messages.EntityDeleted);
         }
 
+        [PerformanceAspect(10)]
+        [CacheAspect]
         public IDataResult<List<Customer>> GetAll()
         {
             if (DateTime.Now.Hour == 23)
@@ -41,7 +45,8 @@ namespace Business.Concrete
             }
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
-
+        [PerformanceAspect(10)]
+        [CacheAspect]
         public IDataResult<Customer> GetById(int id)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(p => p.UserId == id));

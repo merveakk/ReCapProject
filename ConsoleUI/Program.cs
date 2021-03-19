@@ -42,7 +42,7 @@ namespace ConsoleUI
                     CarByModelYear(carManager);
                     break;
                 case 7:
-                    GetAllUsers(userManager);
+                  //  GetAllUsers(userManager);
                     CustomerAddition(customerManager);
                     break;
                 case 8:
@@ -52,7 +52,7 @@ namespace ConsoleUI
                     UserAddition(userManager);
                     break;
                 case 10:
-                    GetAllUsers(userManager);
+                  //  GetAllUsers(userManager);
                     break;
                 case 11:
                     GetCarDetails(carManager);
@@ -113,8 +113,8 @@ namespace ConsoleUI
             string emailForAddititon = Console.ReadLine();
             Console.WriteLine("Password:");
             string passwordForAddititon = Console.ReadLine();
-            User userForAdd = new User { FirstName = firstNameForAddititon, LastName = lastNameForAddititon, Email = emailForAddititon, Password = passwordForAddititon };
-            userManager.Add(userForAdd);
+            //User userForAdd = new User { FirstName = firstNameForAddititon, LastName = lastNameForAddititon, Email = emailForAddititon, Password = passwordForAddititon };
+            //userManager.Add(userForAdd);
         }
 
         private static void ListCustomers(CustomerManager customerManager)
@@ -138,14 +138,14 @@ namespace ConsoleUI
             customerManager.Add(customerForAdd);
         }
 
-        private static void GetAllUsers(UserManager userManager)
-        {
-            Console.WriteLine("Kullanıcı Listesi");
-            foreach (var user in userManager.GetAll().Data)
-            {
-                Console.WriteLine(user.Id + " " + user.FirstName + " " + user.LastName + " " + user.Email);
-            }
-        }
+        //private static void GetAllUsers(UserManager userManager)
+        //{
+        //    Console.WriteLine("Kullanıcı Listesi");
+        //    foreach (var user in userManager.GetAll().Data)
+        //    {
+        //        Console.WriteLine(user.Id + " " + user.FirstName + " " + user.LastName + " " + user.Email);
+        //    }
+        //}
 
         private static void CarForUpdate(CarManager carManager)
         {
